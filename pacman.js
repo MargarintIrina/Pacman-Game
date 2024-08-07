@@ -34,7 +34,7 @@ function renderMap(){
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-                coins.forEach(coin =>{
+                coins.forEach(coin => {
                         if(x == [coin.x] && y == [coin.y] && coin_state == true){
                         gameMap.innerHTML += `<div class="coin"></div>`;
                         

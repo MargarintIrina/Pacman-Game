@@ -1,0 +1,67 @@
+body{
+        background-color: #444;
+        color: white;
+}
+#gameMap{
+        position: relative;
+        width: 500px;
+        height: 500px;
+        border: 10px solid #666;
+        font-size: 0;
+        color: white;
+}
+
+#gameMap div{
+        width: 50px;
+        height: 50px;
+        border: 1px solid #999;
+        display: inline-block;
+        box-sizing: border-box;
+        font-size: 0;
+      
+}
+ .pac{
+        background-image: url(images/Cute-Ball-Games-icon.png);
+
+ }
+.coin{
+        background-image: url(images/coin-us-dollar-icon.png);
+}
+.bomb{
+        background-image: url(images/Actions-edit-bomb-icon.png);
+
+}
+
+#gameScore,
+#hp{
+display: inline-block;
+width: 150px;
+margin: 50px 0 ;
+font-size: 20px;
+}
+
+.game-over{
+        width: 300px !important;
+        position: absolute;
+        display: inline-block;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background-color: red;
+        box-sizing: unset !important;
+
+
+ 
+}
+
+.game-over span{
+        font-size: 30px;
+        color: white;
+        display: inline-block;
+        width: fit-content;
+        margin: 8px 50px;
+        
+        
+}

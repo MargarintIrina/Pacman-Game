@@ -1,17 +1,17 @@
-"use strict"; 
-
-let pac_x = 7;
-let pac_y = 5;
-
-
-
 function randomNumber(){
         const random =  Math.floor(Math.random() * (10 - 1 + 1) + 1);
         return random; 
 }
 
-let coin_x = randomNumber();
-let coin_y = randomNumber();
+const coins = [
+     {x: randomNumber(), y: randomNumber() },
+     {x: randomNumber(), y: randomNumber() },
+     {x: randomNumber(), y: randomNumber() },
+];
+let pac_x = 7;
+let pac_y = 5;
+
+
 let coin_state = true;
 
 let bomb_x = randomNumber();
@@ -26,16 +26,23 @@ function renderMap(){
         for(let y = 1; y <= 10; y++){
                 for(let x = 1; x <= 10; x++ ){
                         if(x == pac_x && y == pac_y){
-                        gameMap.innerHTML += `<div class="pac"></div>`;
-                }else if(x == coin_x && y == coin_y && coin_state == true){
-                        gameMap.innerHTML += `<div class="coin"></div>`;
-                }else if( x == bomb_x && y == bomb_y && bomb_state == true){
-                        gameMap.innerHTML += `<div class="bomb"></div>`;
-                       
-                } 
+                        gameMap.innerHTML += `<div class="pac"></div>`;}
+                  
                 else{
                         gameMap.innerHTML += `<div></div>`;
                 } 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+                coins.forEach(coin =>{
+                        if(x == [coin.x] && y == [coin.y] && coin_state == true){
+                        gameMap.innerHTML += `<div class="coin"></div>`;
+                        
+                } 
+                
+                });
+////////////////////////////////////////////////////////////////////////////////////////////////                
+                              
         }
 }
         gameScore.innerHTML = `<div>Score : ${score}</div>`;
@@ -44,8 +51,9 @@ function renderMap(){
         if(pac_hp <= 0){
                 gameMap.innerHTML = `<div class="game-over"><span>GAME OVER!</span></div>`
         }
-
+    
 }
+
 
 renderMap();
 
@@ -69,21 +77,24 @@ function move(){
                 };
                 break;
         }
-        if(pac_x == coin_x && pac_y == coin_y){
-                score += 10;
-                coin_state = false;
-                coin_x = randomNumber();
-                coin_y = randomNumber();
-                coin_state = true;
-        }
-        if(pac_x == bomb_x && pac_y == bomb_y){
-                pac_hp -= 10;
-                bomb_state = false;
-                bomb_x = randomNumber();
-                bomb_y = randomNumber();
-                bomb_state = true;
-
-        }
+        
+ 
       
         renderMap();
 }
+
+        // if(pac_x == coin_x && pac_y == coin_y){
+        //         score += 10;
+        //         coin_state = false;
+        //        coin_x = randomNumber();
+        //         coin_y = randomNumber();
+        //         coin_state = true;
+        // }
+        // if(pac_x == bomb_x && pac_y == bomb_y){
+        //         pac_hp -= 10;
+        //         bomb_state = false;
+        //         bomb_x = randomNumber();
+        //         bomb_y = randomNumber();
+        //         bomb_state = true;
+
+        // }

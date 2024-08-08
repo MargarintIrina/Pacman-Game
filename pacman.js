@@ -21,8 +21,13 @@ const bombs = [
         {x: randomNumber(), y: randomNumber() },
         {x: randomNumber(), y: randomNumber() },
         {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() }
    ];
+
+
+
+   console.log(bombs);
+   console.log(coins);
 let bomb_state = true;
 
 let score = 0 ;
@@ -34,7 +39,6 @@ function renderMap(){
                 for(let x = 1; x <= 10; x++ ){
 const foundCoin = coins.find((coin) => coin.x == x && coin.y == y && coin_state == true);
 const foundBomb = bombs.find((bomb) => bomb.x == x && bomb.y == y && bomb_state == true);
-console.log(foundBomb);
 if(x == pac_x && y == pac_y){
         gameMap.innerHTML += `<div class="pac"></div>`;}
 
@@ -55,6 +59,7 @@ else if(foundCoin){
         if(pac_hp <= 0){
                 gameMap.innerHTML = `<div class="game-over"><span>GAME OVER!</span></div>`
         }
+
 }
 renderMap();
 
@@ -89,7 +94,7 @@ const neamNeam = coins.find((coin) => pac_x == coin.x && pac_y == coin.y );
                 coin_state = true;
         }
 
-const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y );
+const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y);
 
         if(baBah){
                 pac_hp -= 10;
@@ -99,10 +104,17 @@ const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y );
                 bomb_state = true;
 
         }
-        
- 
 
         renderMap();
 }
 
 
+
+coins.forEach(coin => {
+        bombs.forEach(bomb => {
+            if (coin.x === bomb.x && coin.y === bomb.y) {
+                bomb.x = randomNumber();
+                bomb.y = randomNumber();
+            }
+        });
+    }); 

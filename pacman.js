@@ -1,21 +1,28 @@
+"use strict"
+
 function randomNumber(){
         const random =  Math.floor(Math.random() * (10 - 1 + 1) + 1);
         return random; 
 }
+
+let pac_x = 7;
+let pac_y = 5;
+
 
 const coins = [
      {x: randomNumber(), y: randomNumber() },
      {x: randomNumber(), y: randomNumber() },
      {x: randomNumber(), y: randomNumber() },
 ];
-let pac_x = 7;
-let pac_y = 5;
-
-
 let coin_state = true;
 
-let bomb_x = randomNumber();
-let bomb_y = randomNumber(); 
+const bombs = [
+        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() },
+   ];
 let bomb_state = true;
 
 let score = 0 ;
@@ -25,21 +32,21 @@ function renderMap(){
         gameMap.innerHTML = ``;
         for(let y = 1; y <= 10; y++){
                 for(let x = 1; x <= 10; x++ ){
-
-       
-const founDcoin = coins.find((coin) => coin.x == x && coin.y == y && coin_state == true);
+const foundCoin = coins.find((coin) => coin.x == x && coin.y == y && coin_state == true);
+const foundBomb = bombs.find((bomb) => bomb.x == x && bomb.y == y && bomb_state == true);
+console.log(foundBomb);
 if(x == pac_x && y == pac_y){
         gameMap.innerHTML += `<div class="pac"></div>`;}
-  
-else if(founDcoin){
-      
-        gameMap.innerHTML += `<div class="coin"></div>`;
 
+else if(foundCoin){    
+        gameMap.innerHTML += `<div class="coin"></div>`;
    
-}          else{
+}else if(foundBomb){
+        gameMap.innerHTML += `<div class="bomb"></div>`
+
+}else{
         gameMap.innerHTML += `<div></div>`;
-} 
-                           
+}            
         }
 }
         gameScore.innerHTML = `<div>Score : ${score}</div>`;
@@ -48,10 +55,7 @@ else if(founDcoin){
         if(pac_hp <= 0){
                 gameMap.innerHTML = `<div class="game-over"><span>GAME OVER!</span></div>`
         }
-    
 }
-
-
 renderMap();
 
 function move(){
@@ -74,6 +78,27 @@ function move(){
                 };
                 break;
         }
+
+const neamNeam = coins.find((coin) => pac_x == coin.x && pac_y == coin.y );
+
+        if(neamNeam){
+                score += 10;
+                coin_state = false;
+                neamNeam.x = randomNumber();
+                neamNeam.y = randomNumber();
+                coin_state = true;
+        }
+
+const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y );
+
+        if(baBah){
+                pac_hp -= 10;
+                bomb_state = false;
+                baBah.x = randomNumber();
+                baBah.y = randomNumber();
+                bomb_state = true;
+
+        }
         
  
 
@@ -81,22 +106,3 @@ function move(){
 }
 
 
-   
-        // if(pac_x == bomb_x && pac_y == bomb_y){
-        //         pac_hp -= 10;
-        //         bomb_state = false;
-        //         bomb_x = randomNumber();
-        //         bomb_y = randomNumber();
-        //         bomb_state = true;
-
-        // }
-
-         
-if(pac_x == coins[coin.x] && pac_y == coins[coin.y]){
-        score += 10;
-        coin_state = false;
-       coins[coin.x] = randomNumber();
-        coins[coin.y] = randomNumber();
-        coin_state = true;
-}
-  

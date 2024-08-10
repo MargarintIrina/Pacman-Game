@@ -7,27 +7,39 @@ function randomNumber(){
 
 let pac_x = 7;
 let pac_y = 5;
-
-
+const bombs = [];
 const coins = [
-     {x: randomNumber(), y: randomNumber() },
-     {x: randomNumber(), y: randomNumber() },
-     {x: randomNumber(), y: randomNumber() },
-];
+        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() },
+        {x: randomNumber(), y: randomNumber() },
+   ];
+let b = 0;
+
+
+while(bombs.length < 5){
+    const newBomb = {x: randomNumber(), y: randomNumber()}
+        const isOverlapping = coins.some(coin => coin.x === newBomb.x && coin.y === newBomb.y )|| bombs.some(bomb => bomb.x === newBomb.x && bomb.y === newBomb.y) || (newBomb.x === pac_x && newBomb.y === pac_y);
+        if(!isOverlapping){
+                bombs.push(newBomb);
+        }
+}
+
+console.log(bombs);
+console.log(coins);
+console.log(pac_x, pac_y);
 let coin_state = true;
 
-const bombs = [
-        {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() }
-   ];
+// const bombs = [
+//         {x: randomNumber(), y: randomNumber() },
+//         {x: randomNumber(), y: randomNumber() },
+//         {x: randomNumber(), y: randomNumber() },
+//         {x: randomNumber(), y: randomNumber() },
+//         {x: randomNumber(), y: randomNumber() }
+//    ];
 
 
 
-   console.log(bombs);
-   console.log(coins);
+
 let bomb_state = true;
 
 let score = 0 ;
@@ -61,6 +73,8 @@ else if(foundCoin){
         }
 
 }
+
+         
 renderMap();
 
 function move(){
@@ -110,11 +124,11 @@ const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y);
 
 
 
-coins.forEach(coin => {
-        bombs.forEach(bomb => {
-            if (coin.x === bomb.x && coin.y === bomb.y) {
-                bomb.x = randomNumber();
-                bomb.y = randomNumber();
-            }
-        });
-    }); 
+// coins.forEach(coin => {
+//         bombs.forEach(bomb => {
+//             if (coin.x === bomb.x && coin.y === bomb.y) {
+//                 bomb.x = randomNumber();
+//                 bomb.y = randomNumber();
+//             }
+//         });
+//     }); 

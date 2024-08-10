@@ -13,8 +13,6 @@ const coins = [
         {x: randomNumber(), y: randomNumber() },
         {x: randomNumber(), y: randomNumber() },
    ];
-let b = 0;
-
 
 while(bombs.length < 5){
     const newBomb = {x: randomNumber(), y: randomNumber()}

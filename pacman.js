@@ -7,35 +7,92 @@ function randomNumber(){
 
 let pac_x = 7;
 let pac_y = 5;
-const bombs = [];
-const coins = [
-        {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() },
-        {x: randomNumber(), y: randomNumber() },
-   ];
 
-while(bombs.length < 5){
-    const newBomb = {x: randomNumber(), y: randomNumber()}
-        const isOverlapping = coins.some(coin => coin.x === newBomb.x && coin.y === newBomb.y )|| bombs.some(bomb => bomb.x === newBomb.x && bomb.y === newBomb.y) || (newBomb.x === pac_x && newBomb.y === pac_y);
-        if(!isOverlapping){
-                bombs.push(newBomb);
+
+// while(bombs.length < 5){
+//     const newBomb = {x: randomNumber(), y: randomNumber()}
+//         const isOverlapping = coins.some(coin => coin.x === newBomb.x && coin.y === newBomb.y )
+//         || bombs.some(bomb => bomb.x === newBomb.x && bomb.y === newBomb.y)
+//         || (newBomb.x === pac_x && newBomb.y === pac_y);
+
+//         if(!isOverlapping){
+//                 bombs.push(newBomb);
+//         }
+// }
+// while(coins.length < 3){
+//         const newCoin = {x: randomNumber(), y: randomNumber()};
+//                 const isCoinOverlapping = coins.some(coin => coin.x === newCoin.x && coin.y === newCoin.y) ||
+//                 bombs.some(bomb => bomb.x === newCoin.x && bomb.y === newCoin.y) ||
+//                 (newCoin.x === pac_x && newCoin.y === pac_y);
+//                 if(!isCoinOverlapping){
+//                         coins.push(newCoin);
+//                 }
+// }
+
+
+
+// sol 1 ---------------------------------------------------------------------------------------------------------
+
+function generateItems(existingItems, desiredLeght, overlappingCheck){
+        const newItems = [];
+
+        while(newItems.length < desiredLeght){
+                const newItem = {x: randomNumber(), y: randomNumber()};
+
+                if(!overlappingCheck(newItem, existingItems)){
+                        newItems.push(newItem);
+                }
         }
-}
+        return newItems;
+
+};
+const initialItems = [{ x: pac_x, y: pac_y }];
+
+const coins = generateItems(initialItems.concat([{ x: pac_x, y: pac_y }]), 3, (newItem, items) => {
+        return items.some(item => item.x === newItem.x && item.y === newItem.y);
+      });
+const bombs = generateItems(coins.concat([{ x: pac_x, y: pac_y }]), 5, (newItem, items) => {
+        return items.some(item => item.x === newItem.x && item.y === newItem.y);
+      });
+
+
+
+
+
+
+// sol 2 ----------------------------------------------------------------------------------------------------------
+
+// function generateItems(count, overlapCheck, createItem, items) {
+//         while (items.length < count) {
+//           const newItem = createItem();
+//           if (!overlapCheck(newItem, items)) {
+//             items.push(newItem);
+//           }
+//         }
+//       }
+
+// let pac_x = 7;
+// let pac_y = 5;
+// let bombs = [];
+// let coins = [];
+
+// function checkOverlap(item, itemsToCheck) {
+//   return itemsToCheck.some(existingItem => item.x === existingItem.x && item.y === existingItem.y) ||
+//          (item.x === pac_x && item.y === pac_y);
+// }
+
+// generateItems(5, (newBomb, items) => checkOverlap(newBomb, [...items, ...coins]), () => ({ x: randomNumber(), y: randomNumber() }), bombs);
+// generateItems(3, (newCoin, items) => checkOverlap(newCoin, [...items, ...bombs]), () => ({ x: randomNumber(), y: randomNumber() }), coins);
+
+
+      
+
+
 
 console.log(bombs);
 console.log(coins);
 console.log(pac_x, pac_y);
 let coin_state = true;
-
-// const bombs = [
-//         {x: randomNumber(), y: randomNumber() },
-//         {x: randomNumber(), y: randomNumber() },
-//         {x: randomNumber(), y: randomNumber() },
-//         {x: randomNumber(), y: randomNumber() },
-//         {x: randomNumber(), y: randomNumber() }
-//    ];
-
-
 
 
 let bomb_state = true;
@@ -68,6 +125,10 @@ else if(foundCoin){
 
         if(pac_hp <= 0){
                 gameMap.innerHTML = `<div class="game-over"><span>GAME OVER!</span></div>`
+        }
+
+        if(score >= 100){
+                gameMap.innerHTML = `<div class="win"><span>You win!</span></div>`
         }
 
 }
@@ -120,13 +181,3 @@ const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y);
         renderMap();
 }
 
-
-
-// coins.forEach(coin => {
-//         bombs.forEach(bomb => {
-//             if (coin.x === bomb.x && coin.y === bomb.y) {
-//                 bomb.x = randomNumber();
-//                 bomb.y = randomNumber();
-//             }
-//         });
-//     }); 

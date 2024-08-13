@@ -40,7 +40,8 @@ margin: 50px 0 ;
 font-size: 20px;
 }
 
-.game-over{
+.game-over,
+.win{
         width: 300px !important;
         position: absolute;
         display: inline-block;
@@ -56,7 +57,12 @@ font-size: 20px;
  
 }
 
-.game-over span{
+.win{
+        background-color: green !important; 
+}
+
+.game-over span,
+.win span{
         font-size: 30px;
         color: white;
         display: inline-block;

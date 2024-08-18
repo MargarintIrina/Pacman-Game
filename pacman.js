@@ -7,7 +7,7 @@ function randomNumber(){
 
 let pac_x = 7;
 let pac_y = 5;
-
+let explosion = false;
 
 // while(bombs.length < 5){
 //     const newBomb = {x: randomNumber(), y: randomNumber()}
@@ -32,40 +32,50 @@ let pac_y = 5;
 
 
 // sol 1 ---------------------------------------------------------------------------------------------------------
-
-function generateItems(existingItems, desiredLeght, overlappingCheck){
+function generateItems(initialItems, desiredLength, overlappingCheckCb) {
         const newItems = [];
+        initialItems = initialItems.concat(newItems) // < ?
+        while (newItems.length < desiredLength) {
+                const newItem = { x: randomNumber(), y: randomNumber() };
 
-        while(newItems.length < desiredLeght){
-                const newItem = {x: randomNumber(), y: randomNumber()};
-
-                if(!overlappingCheck(newItem, existingItems)){
+                if (!overlappingCheckCb(newItem, initialItems)) {
                         newItems.push(newItem);
-                }
+                        initialItems.push(newItem);  /// <<< didn't update after each element
+                } 
         }
         return newItems;
+}
 
-};
-const initialItems = [{ x: pac_x, y: pac_y }];
 
-const coins = generateItems(initialItems.concat([{ x: pac_x, y: pac_y }]), 3, (newItem, items) => {
+const pacmanItem = [{ x: pac_x, y: pac_y }];
+
+const coins = generateItems(pacmanItem, 3, (newItem, items) => {
         return items.some(item => item.x === newItem.x && item.y === newItem.y);
       });
-const bombs = generateItems(coins.concat([{ x: pac_x, y: pac_y }]), 5, (newItem, items) => {
+      
+const bombs = generateItems(coins.concat(pacmanItem), 5, (newItem, items) => {
         return items.some(item => item.x === newItem.x && item.y === newItem.y);
       });
 
 
 
+const testArray = coins.concat(pacmanItem, bombs)  
+testArray.forEach( ({x: x1, y: y1}, idx1) => {
+        testArray.forEach(({x: x2,y : y2}, idx2) => {
+                if(x1 === x2 && y1 === y2 && idx1 !== idx2)  {
+                        console.error("OVERLAP!!!")
+                }
+        })
+})    
 
 
 
 // sol 2 ----------------------------------------------------------------------------------------------------------
 
-// function generateItems(count, overlapCheck, createItem, items) {
+// function generateItems(count, overlapCheckCb, createItemCb, items) {
 //         while (items.length < count) {
-//           const newItem = createItem();
-//           if (!overlapCheck(newItem, items)) {
+//           const newItem = createItemCb();
+//           if (!overlapCheckCb(newItem, items)) {
 //             items.push(newItem);
 //           }
 //         }
@@ -77,24 +87,21 @@ const bombs = generateItems(coins.concat([{ x: pac_x, y: pac_y }]), 5, (newItem,
 // let coins = [];
 
 // function checkOverlap(item, itemsToCheck) {
-//   return itemsToCheck.some(existingItem => item.x === existingItem.x && item.y === existingItem.y) ||
-//          (item.x === pac_x && item.y === pac_y);
+//   return itemsToCheck.some(existingItem => item.x === existingItem.x && item.y === existingItem.y);
 // }
 
-// generateItems(5, (newBomb, items) => checkOverlap(newBomb, [...items, ...coins]), () => ({ x: randomNumber(), y: randomNumber() }), bombs);
-// generateItems(3, (newCoin, items) => checkOverlap(newCoin, [...items, ...bombs]), () => ({ x: randomNumber(), y: randomNumber() }), coins);
+// generateItems(5, (newBomb, items) => checkOverlap(newBomb, [...items, ...coins, {x: pac_x, y: pac_y}]), () => ({ x: randomNumber(), y: randomNumber() }), bombs);
+// generateItems(3, (newCoin, items) => checkOverlap(newCoin, [...items, ...bombs, {x: pac_x, y: pac_y}]), () => ({ x: randomNumber(), y: randomNumber() }), coins);
 
 
       
+// Deci
+// 1. studiaza timerele in javascript
+// 2. revezi event handling (in special: ce rol joaca event.target, event.preventDefault(), element.addEventListener)
+// 3. in momentul in care pacmanul nimereste pe o bomba - gaseste un gif sau png sau svg animat cu explozie si seteaza-l pe acel patratel ca background, totodata seteaza un timer - care peste o secunda - va scoate aceast stil cu explozie
 
 
-
-console.log(bombs);
-console.log(coins);
-console.log(pac_x, pac_y);
 let coin_state = true;
-
-
 let bomb_state = true;
 
 let score = 0 ;
@@ -114,8 +121,11 @@ else if(foundCoin){
    
 }else if(foundBomb){
         gameMap.innerHTML += `<div class="bomb"></div>`
-
-}else{
+       
+}else if(explosion == true){
+           gameMap.innerHTML += `<div class="booom"></div>`
+}
+else{
         gameMap.innerHTML += `<div></div>`;
 }            
         }
@@ -160,6 +170,7 @@ function move(){
 const neamNeam = coins.find((coin) => pac_x == coin.x && pac_y == coin.y );
 
         if(neamNeam){
+
                 score += 10;
                 coin_state = false;
                 neamNeam.x = randomNumber();
@@ -169,15 +180,18 @@ const neamNeam = coins.find((coin) => pac_x == coin.x && pac_y == coin.y );
 
 const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y);
 
+
         if(baBah){
+                explosion = true;
                 pac_hp -= 10;
                 bomb_state = false;
                 baBah.x = randomNumber();
                 baBah.y = randomNumber();
                 bomb_state = true;
 
+
+
         }
 
         renderMap();
 }
-

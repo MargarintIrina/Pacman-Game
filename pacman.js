@@ -121,6 +121,19 @@ else if(foundCoin){
    
 }else if (foundBomb) {
         gameMap.innerHTML += `<div class="${foundBomb.explosion ? 'booom' : 'bomb'}"></div>`;
+
+        if(foundBomb.explosion){
+                setTimeout(() => {
+                        foundBomb.explosion = false;
+                        foundBomb.x = randomNumber();
+                        foundBomb.y = randomNumber();
+                renderMap();
+
+                },
+                 2000,
+              
+                );
+        }
       }
 else{
         gameMap.innerHTML += `<div></div>`;
@@ -180,11 +193,6 @@ const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y);
         if(baBah){
                 baBah.explosion = true;
                 pac_hp -= 10;
-                bomb_state = false;
-                // baBah.x = randomNumber();
-                // baBah.y = randomNumber();
-                bomb_state = true;
-
 
 
         }

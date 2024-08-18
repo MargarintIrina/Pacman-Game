@@ -18,6 +18,7 @@ body{
         display: inline-block;
         box-sizing: border-box;
         font-size: 0;
+        position: relative;
       
 }
  .pac{
@@ -73,6 +74,8 @@ font-size: 20px;
 }
 
 .booom{
+
+
 background-image: url(https://icons.iconarchive.com/icons/gartoon-team/gartoon-apps/48/mathematica-explosion-icon.png);
       
 }

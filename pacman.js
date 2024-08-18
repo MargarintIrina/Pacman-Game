@@ -7,7 +7,7 @@ function randomNumber(){
 
 let pac_x = 7;
 let pac_y = 5;
-let explosion = false;
+
 
 // while(bombs.length < 5){
 //     const newBomb = {x: randomNumber(), y: randomNumber()}
@@ -119,12 +119,9 @@ if(x == pac_x && y == pac_y){
 else if(foundCoin){    
         gameMap.innerHTML += `<div class="coin"></div>`;
    
-}else if(foundBomb){
-        gameMap.innerHTML += `<div class="bomb"></div>`
-       
-}else if(explosion == true){
-           gameMap.innerHTML += `<div class="booom"></div>`
-}
+}else if (foundBomb) {
+        gameMap.innerHTML += `<div class="${foundBomb.explosion ? 'booom' : 'bomb'}"></div>`;
+      }
 else{
         gameMap.innerHTML += `<div></div>`;
 }            
@@ -180,13 +177,12 @@ const neamNeam = coins.find((coin) => pac_x == coin.x && pac_y == coin.y );
 
 const baBah = bombs.find((bomb) => pac_x == bomb.x && pac_y == bomb.y);
 
-
         if(baBah){
-                explosion = true;
+                baBah.explosion = true;
                 pac_hp -= 10;
                 bomb_state = false;
-                baBah.x = randomNumber();
-                baBah.y = randomNumber();
+                // baBah.x = randomNumber();
+                // baBah.y = randomNumber();
                 bomb_state = true;
 
 
